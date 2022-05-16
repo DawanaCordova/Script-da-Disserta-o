@@ -677,12 +677,6 @@ tab14 * 100
 ##6ªTabela####
 #Agora sexo e receita, descritiva e qui-quadrado
 
-#Nessa tabela 6 a Adriana apresenta
-#os valores das receitas para as mulheres em 
-#cada ano. Tem as receitas para as aptas e inaptas 
-#e o valor total. Esse valor total não consigo saber o que 
-#significa. 
-
 #Linha
 #sexofeminino <- banco[banco$variávelsexo == "nome da categoria",
 #c ("varialvel receita", "outra variável")]
@@ -881,6 +875,143 @@ tab18 * 100
 #             DESAFIANTE INCUMBENTE
 #FEMININO         99.04       0.96
 
+
+# TABELA 7 – CANDIDATAS 
+# DESAFIANTES OU INCUMBENTES COM CANDIDATURAS APTAS 
+# NAS CANDIDATURAS A VEREADOR NOS MUNICÍPIOS 
+# COM MENOS DE 50,000 ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 (%)
+
+
+library(memisc)
+
+#NULO#   APTO 
+#3899    241208 
+
+Banco2008Vereadores$Aptos <- 
+  recode(Banco2008Vereadores$desc_sit_cand_superior, 
+     'Aptos'<- 'APTO')
+
+#Candidaturas aptas####
+#2008####
+tab1 <- table(Banco2008Vereadores$descricao_sexo, 
+              Banco2008Vereadores$incumb.xdesaf.)
+
+tab1
+
+# DESAFIANTE INCUMBENTE
+# FEMININO       48434       4025
+# MASCULINO     163537      29111
+
+options(digits = 3, scipen = 999)
+
+
+chisq.test(tab1)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab1
+# X-squared = 1951, df = 1, p-value <0.0000000000000002
+# 
+
+Banco2008Vereadores$descricao_sexo <- 
+  as.factor(Banco2008Vereadores$descricao_sexo)
+
+Banco2008Vereadores$incumb.xdesaf. <- 
+  as.factor(Banco2008Vereadores$incumb.xdesaf)
+
+
+tab1 <- prop.table (tab1, margin = 1)
+tab1 * 100
+
+#             DESAFIANTE INCUMBENTE
+# FEMININO       92.33       7.67
+# MASCULINO      84.89      15.11
+
+#2012####
+table(Banco2012Vereadores$desc_sit_cand_superior)
+
+Banco2012Vereadores$Aptos <- 
+  recode(Banco2012Vereadores$desc_sit_cand_superior, 
+         'Aptos'<- 'APTO')
+
+Banco2012Vereadores$descricao_sexo <- 
+  as.factor(Banco2012Vereadores$descricao_sexo)
+
+Banco2012Vereadores$incumb.xdesaf. <- 
+  as.factor(Banco2012Vereadores$incumb.xdesaf)
+
+tab2 <- table(Banco2012Vereadores$descricao_sexo, 
+              Banco2012Vereadores$incumb.xdesaf.)
+
+tab2
+
+
+# DESAFIANTE INCUMBENTE
+# FEMININO       93117       3900
+# MASCULINO     173649      28044
+
+options(digits = 3, scipen = 999)
+
+
+chisq.test(tab2)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab1
+# X-squared = 1951, df = 1, p-value <0.0000000000000002
+# 
+
+
+
+tab2 <- prop.table (tab2, margin = 1)
+tab2 * 100
+
+#             DESAFIANTE INCUMBENTE
+# FEMININO      95.98       4.02
+# MASCULINO      86.10      13.90
+
+#2016####
+table(Banco2016Vereadores$desc_sit_cand_superior)
+
+Banco2016Vereadores$Aptos <- 
+  recode(Banco2016Vereadores$desc_sit_cand_superior, 
+         'Aptos'<- 'APTO')
+
+Banco2016Vereadores$descricao_sexo <- 
+  as.factor(Banco2016Vereadores$descricao_sexo)
+
+Banco2016Vereadores$incumb.xdesaf. <- 
+  as.factor(Banco2016Vereadores$incumb.xdesaf)
+
+tab3 <- table(Banco2016Vereadores$descricao_sexo, 
+              Banco2016Vereadores$incumb.xdesaf.)
+
+tab3
+
+
+#           DESAFIANTE INCUMBENTE
+# FEMININO       97662       4503
+# MASCULINO     176902      30779
+
+options(digits = 3, scipen = 999)
+
+
+chisq.test(tab3)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab3
+#X-squared = 7357, df = 1, p-value <0.0000000000000002
+
+
+tab3 <- prop.table (tab3, margin = 1)
+tab3 * 100
+
+#             DESAFIANTE INCUMBENTE
+# FEMININO        95.59       4.41
+# MASCULINO      85.18      14.82
+
+
 ##8ªTabela#####
 ##Agr Vamos usar apenas os bancos de INAPTOS
 #Para testar a carreira política em e o sexo 
@@ -939,6 +1070,110 @@ tab21 * 100
 #                    NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
 #FEMININO                        99.51                 0.49
 
+
+##8ªTabela#####
+##Agr Vamos usar apenas os bancos de APTOS
+
+# TABELA 8 – CANDIDATAS COM CARREIRA 
+# POLÍTICA OU NÃO COM CANDIDATURAS APTAS NAS 
+# CANDIDATURAS A VEREADOR NOS MUNICÍPIOS COM MENOS DE 
+# 50.000 ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 (%)
+
+library(memisc)
+
+Banco2008Vereadores$Aptos <- 
+  recode(Banco2008Vereadores$desc_sit_cand_superior, 
+         'Aptos'<- 'APTO')
+
+#CARREIRA POLÍTICA####
+#Candidaturas aptas####
+#2008####
+tab1 <- table(Banco2008Vereadores$descricao_sexo, 
+              Banco2008Vereadores$descricao_ocupacao_agreg1)
+
+tab1
+
+
+#            NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                     50657                 1802
+# MASCULINO                   180185                12463
+
+options(digits = 3, scipen = 999)
+
+
+chisq.test(tab1)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab1
+#X-squared = 692, df = 1, p-value <0.0000000000000002
+# 
+
+
+
+tab1 <- prop.table (tab1, margin = 1)
+tab1 * 100
+
+#             NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                     96.56                 3.44
+# MASCULINO                    93.53                 6.47
+
+#2012####
+tab2 <- table(Banco2012Vereadores$descricao_sexo, 
+              Banco2012Vereadores$descricao_ocupacao_agreg1)
+
+tab2
+
+
+#            NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                   95109                 1908
+# MASCULINO                 188346                13347
+
+
+chisq.test(tab2)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab2
+#X-squared =  2923, df = 1, p-value <0.0000000000000002
+# 
+
+
+
+tab2 <- prop.table (tab2, margin = 1)
+tab2 * 100
+
+#             NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                     98.03                 1.97
+# MASCULINO                   93.38                 6.62
+
+#2016####
+tab3 <- table(Banco2016Vereadores$descricao_sexo, 
+              Banco2016Vereadores$descricao_ocupacao_agreg1)
+
+tab3
+
+
+#            NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                   99885                 2280
+# MASCULINO                 192295                15386
+
+
+chisq.test(tab3)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab3
+#X-squared = 3412, df = 1, p-value <0.0000000000000002
+
+# 
+
+tab3 <- prop.table (tab3, margin = 1)
+tab3 * 100
+
+#             NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                    97.77                 2.23
+# MASCULINO                   92.59                 7.41
 
 
 ##Cálculos####
