@@ -298,59 +298,6 @@ cor.test(~ total_votos_turno_1 + receitas_total,
 #   cor 
 # 0.49
 
-##p.49####
-##ABSOLUTOS####
-#2008
-modelo1 <- lm(total_votos_turno_1 ~ receitas_total, data = Banco2008Vereadores)
-
-tab_model(modelo1, show.ci = F, auto.label = F, 
-          show.se = F, collapse.se =F,
-          p.style = "numeric")
-
-
-#2012
-modelo2 <- lm(total_votos_turno_1 ~ 
-                receitas_total, data= Banco2012Vereadores)
-
-tab_model(modelo2, show.ci = F, auto.label = F, 
-          show.se = F, collapse.se =F,
-          p.style = "numeric")
-
-#2016
-modelo3 <- lm(total_votos_turno_1 ~ 
-                receitas_total, data = Banco2016Vereadores)
-
-tab_model(modelo3, show.ci = F, auto.label = F, 
-          show.se = F, collapse.se =F,
-          p.style = "numeric")
-
-##RELATIVOS####
-
-summary(Banco2008Vereadores$total_de_voto_no_municipio)
-Banco2008Vereadores$total_de_receita_no_municipio
-
-modeloR1 <- lm(total_de_voto_no_municipio ~ 
-                 total_de_receita_no_municipio, data = Banco2008Vereadores)
-
-tab_model(modeloR1, show.ci = F, auto.label = F, 
-          show.se = F, collapse.se =F,
-          p.style = "numeric")
-
-#2012
-modeloR2 <- lm(total_de_voto_no_municipio ~ 
-                 total_de_receita_no_municipio, data= Banco2012Vereadores)
-
-tab_model(modeloR2, show.ci = F, auto.label = F, 
-          show.se = F, collapse.se =F,
-          p.style = "numeric")
-
-#2016
-modeloR3 <- lm(total_de_voto_no_municipio ~ 
-                 total_de_receita_no_municipio, data = Banco2016Vereadores)
-
-tab_model(modeloR3, show.ci = F, auto.label = F, 
-          show.se = F, collapse.se =F,
-          p.style = "numeric")
 
 ##p.50####
 #Regressão Linear Simples entre votos e sexo e renda (???)
