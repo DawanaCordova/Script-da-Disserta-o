@@ -1,5 +1,5 @@
-#Salvar tudo em R.data 
-#Função pra abrir em CSV 
+#Com a disponibilização do banco de dados pelo GETE, salvamos tudo em R.data 
+#Após abrimos em CSV 
 Banco2016Vereadores = read.csv2("Banco2016Veradores.csv")
 #Observações 434.045
 Banco2012Vereadores = read.csv2("Banco2012Veradores.csv")
@@ -7,26 +7,28 @@ Banco2012Vereadores = read.csv2("Banco2012Veradores.csv")
 Banco2008Vereadores = read.csv2("Banco2008Veradores.csv")
 #Obervações 245.107
 
-#Os bancos estão ok, todos com 90 variáveis.
+#Os bancos ficaram ok, todos com 90 variáveis.
 #Somando as observações:
 434045 + 412198 + 324598
 #[1] 1170841
-#Total de vereadores (APTOS E INAPTOS) entre 2008 e 2026 =1.170.841 
+#Total de vereadores (APTOS E INAPTOS) entre 2008 e 2016 =1.170.841 
 
 save(Banco2016Vereadores, file = "Banco2016Vereadores.RData")
 save(Banco2012Vereadores, file = "Banco2012Vereadores.RData")
 save(Banco2008Vereadores, file = "Banco2008Vereadores.RData")
 
-
 freq(Banco2008Vereadores$descricao_ue)
 
 #OK.
 
-
+# o Quadro 1 - DISTRIBUIÇÃO DOS MUNICÍPIOS COM MENOS DE 50.000 ELEITORES DAS ELEIÇÕES 
+#PARA VEREADORES DO ANO DE 2008, 2012 E 2016 CONFORME A REGIÃO foi realizado de forma manual pelo programa Excel.
 
 #Primeira tabela word Região do País e municípios
 
-##1ªTabela####
+##1ªTabela - DISTRIBUIÇÃO DAS VARIÁVEIS QUALITATIVAS E QUANTITATIVAS DO ESTUDO DAS CANDIDATURAS APTAS
+#NAS ELEIÇÕES 2008, 2012 E 2016 COM MUNICÍPIOS COM MENOS DE 50.000 ELEITORES####
+
 ####Sexo####
 freq(Banco2008Vereadores$descricao_sexo)
 #             Frequência Percentual
@@ -56,7 +58,7 @@ freq(Banco2008Vereadores$descricao_estado_civil)
 #VIÚVO(A)                        4372      1.784
 #Total                         245107    100.000
 
-# recodificar essa variável, vamos usar o pac. memisc
+# recodificamos essa variável, com o pac. memisc
 #função recod
 library(memisc)
 
@@ -204,7 +206,6 @@ freq(Banco2016Vereadores$desc_sit_tot_turno_agreg)
 #Total           309846     100.00
 
 
-
 ####Receitas####
 summary(Banco2008Vereadores$receitas_total)
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -245,14 +246,17 @@ summary(Banco2016Vereadores$total_votos_turno_1)
 #e (divido por) V Munícipio é igual ao total de 
 #votos dos candidatos no distrito/ município.
 
+#Apresentação dos Resultados #
 
 summary(Banco2008Vereadores$total_de_receita_no_municipio)
 
 
-####INAPTOS####
-##2ªe3ª tabela####
-#Teremos que agora trabalhar tbém com os inaptos pq a tabela 2 
-#Apresenta dados sobre todas as pessoas que se inscreveram.
+#### Tabela 2 - QUANTITATIVO DE PEDIDOS DE REGISTRO DE CANDIDATURAS A VEREADOR
+#NOS MUNICÍPIOS COM MENOS DE 50 MIL ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 e 
+# Tabela 3 - SITUAÇÃO DAS CANDIDATURAS A VEREADOR NOS MUNICÍPIOS COM MENOS DE 50
+#MIL ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 ####
+
+#Banco de dados com os candidatos inaptos 
 
 library(readr)
 library(readxl)
@@ -262,9 +266,6 @@ X2008INAPTOS = read.csv2("2008INAPTOS.csv")
 X2012INAPTOS = read.csv2("2012INAPTOS.csv")
 
 X2016INAPTOS = read.csv2("2016INAPTOS.csv")
-
-
-
 
 freq(X2008INAPTOS$descricao_sexo)
 #           Frequência Percentual
@@ -286,13 +287,13 @@ X2016INAPTOS$descricao_sexo
 #MASCULINO       9345      55.95
 #Total          16703     100.00
 
-###Para montar a tabela somar os valor dos APTOS 
+###Para montar a tabela somamos os valor dos APTOS 
 #Que estão lá em cima, com os INAPTOS
 
 ####Correlação#####
 #Qui quadrado entre sexo e situação da candidatura (Variável: desc_sit_can_superior)
 # e também uma tabela de relação
-#Como essa variável tem a categoria APTA E INAPTA você precisa juntar 
+#Como essa variável tem a categoria APTA E INAPTA juntamos 
 #Os dois bancos, então antes do teste fazer essa junção, criando outros
 #3 bancos através da função MERGE 
 
@@ -403,7 +404,8 @@ tab3 * 100
 #FEMININO  93.3    6.7
 #MASCULINO 95.7    4.3
 
-##4ªtabela####
+##TABELA 4 - GRAU DE INSTRUÇÃO DAS CANDIDATAS A VEREADORA NOS 
+#MUNICÍPIOS COM MENOS DE 50 MIL ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 (%).####
 #Qui-quadrado entre o sexo e a escolaridade, no banco de INAPTO E APTO
 # e a tabela de relação
 
@@ -524,9 +526,13 @@ tab9 * 100
 #             FUNDAMENTAL MÉDIO SUPERIOR
 #FEMININO           36    45       20
 
-##5ªTabela####
+
+##TABELA 5 - OCUPAÇÃO DAS CANDIDATAS A VEREADORA NOS MUNICÍPIOS
+#COM MENOS DE 50 MIL ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 (%)####
+
 freq(Banco2008Vereadores$descricao_ocupacao_agreg)
-#Originalmente tem 4 categorias:
+
+#Originalmente no banco de dados existem 4 categorias:
 #                          Frequência Percentual
 #ESPECIALIZADO FUNDAMENTAL     126728     51.703
 #ESPECIALIZADO MÉDIO            58014     23.669
@@ -534,8 +540,9 @@ freq(Banco2008Vereadores$descricao_ocupacao_agreg)
 #NÃO ESPECIALIZADO              16805      6.856
 #Total                          245107    100.00
 
-#Na tab. da Adriana tem 2 apenas, 1- Não especializado + Espec. fundamemntal
-# e 2- Espec. Médio + Superior. Então vamos juntar dessa forma
+#No trabalho da Adriana tem 2 apenas, 1- Não especializado + Espec. fundamemntal
+# e 2- Espec. Médio + Superior. Por isso, então juntamos dessa forma.
+
 ##2008
 Banco2008Vereadores$Ocupação <- recode(Banco2008Vereadores$descricao_ocupacao_agreg,
                             1 <- c("NÃO ESPECIALIZADO","ESPECIALIZADO FUNDAMENTAL"),
@@ -674,7 +681,7 @@ tab14 * 100
 #           1  2
 #FEMININO  59 41
 
-##6ªTabela####
+##TABELA 6 – DESCRITIVO DE RECEITAS DAS CANDIDATAS APTAS/INAPTAS####
 #Agora sexo e receita, descritiva e qui-quadrado
 
 #Linha
@@ -706,9 +713,7 @@ chisq.test(tab15)
 #X-squared = 12339, df = 12341, p-value = 0.5
 #Warning message:
 #  In chisq.test(tab15) : Aproximação do qui-quadrado pode estar incorreta
-#Aparece essa mensagem porque como aprendemos na aula, o qui-quadrado não é um teste  
-#adequado para todo tipo de variável. Outros testes podem ser melhores, como
-#O kendall, e o Rho.
+
 library(Kendall)
 
 Kendall(Banco2008Vereadores$receitas_total, 
@@ -729,8 +734,6 @@ cor.test(~ receitas_total + codigo_sexo, data = Banco2008Vereadores,
 #sample estimates:
 #  cor 
 #-0.044 
-
-
 
 
 #2008 INAPTA
@@ -765,7 +768,6 @@ summary(sexofemininoI12$receitas_total)
 #Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 ###0       0       0          161       0   35728 
 
-#Rho - Como vimos que esse teste é melhor, vamos usar ele para os demais casos
 cor.test(~ receitas_total + codigo_sexo, data = Banco2012Vereadores,
          method = "pearson", continuity = F, conf.level = 0.95, log= "xy")
 #Pearson's product-moment correlation
@@ -783,7 +785,7 @@ cor.test(~ receitas_total + codigo_sexo, data = Banco2012Vereadores,
 sexofemininoA16 <- Banco2016Vereadores[Banco2016Vereadores$descricao_sexo ==
                                          "FEMININO", c("receitas_total", "nome_candidato")]
 
-# summary -inforacoes de receitas para as mulheres
+# summary -informções de receitas para as mulheres
 summary(sexofemininoA16$receitas_total)
 
 #Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
@@ -799,10 +801,8 @@ summary(sexofemininoI16$receitas_total)
 #Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 ## 0       0     148          435     462   20698  
 
-#Rho - Como vimos que esse teste é melhor, vamos usar ele para os demais casos
 cor.test(~ receitas_total + codigo_sexo, data = Banco2016Vereadores,
          method = "pearson", continuity = F, conf.level = 0.95, log= "xy")
-
 
 #data:  receitas_total and codigo_sexo
 #t = -72, df = 309844, p-value <0.0000000000000002
@@ -814,9 +814,10 @@ cor.test(~ receitas_total + codigo_sexo, data = Banco2016Vereadores,
 #-0.13 
 
 
+##TABELA 7 – CANDIDATAS DESAFIANTES OU INCUMBENTES COM CANDIDATURAS INAPTAS
+#E APTAS NAS CANDIDATURAS A VEREADOR NOS MUNICÍPIOS COM MENOS DE 50.000 ELEITORES 
+#NAS ELEIÇÕES DE 2008, 2012 E 2016 (%)#####
 
-
-##7ªTabela#####
 options(scipen = 1000)
 #Relação e qui-quadrado entre sexo e incumbente ou desafiante (INAPTAS)
 tab16 <- table(X2008INAPTOS$descricao_sexo, X2008INAPTOS$incumb.xdesaf.)
@@ -874,12 +875,6 @@ tab18 * 100
 
 #             DESAFIANTE INCUMBENTE
 #FEMININO         99.04       0.96
-
-
-# TABELA 7 – CANDIDATAS 
-# DESAFIANTES OU INCUMBENTES COM CANDIDATURAS APTAS 
-# NAS CANDIDATURAS A VEREADOR NOS MUNICÍPIOS 
-# COM MENOS DE 50,000 ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 (%)
 
 
 library(memisc)
@@ -961,8 +956,6 @@ chisq.test(tab2)
 # X-squared = 1951, df = 1, p-value <0.0000000000000002
 # 
 
-
-
 tab2 <- prop.table (tab2, margin = 1)
 tab2 * 100
 
@@ -1012,9 +1005,9 @@ tab3 * 100
 # MASCULINO      85.18      14.82
 
 
-##8ªTabela#####
-##Agr Vamos usar apenas os bancos de INAPTOS
-#Para testar a carreira política em e o sexo 
+##TABELA 8 – CANDIDATAS COM CARREIRA POLÍTICA OU NÃO COM CANDIDATURAS INAPTAS E APTAS NAS CANDIDATURAS 
+#A VEREADOR NOS MUNICÍPIOS COM MENOS DE 50.000 ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 (%)#####
+
 
 #2008
 tab19 <- table(X2008INAPTOS$descricao_sexo, X2008INAPTOS$descricao_ocupacao_agreg1)
@@ -1071,14 +1064,6 @@ tab21 * 100
 #FEMININO                        99.51                 0.49
 
 
-##8ªTabela#####
-##Agr Vamos usar apenas os bancos de APTOS
-
-# TABELA 8 – CANDIDATAS COM CARREIRA 
-# POLÍTICA OU NÃO COM CANDIDATURAS APTAS NAS 
-# CANDIDATURAS A VEREADOR NOS MUNICÍPIOS COM MENOS DE 
-# 50.000 ELEITORES NAS ELEIÇÕES DE 2008, 2012 E 2016 (%)
-
 library(memisc)
 
 Banco2008Vereadores$Aptos <- 
@@ -1108,7 +1093,6 @@ chisq.test(tab1)
 # data:  tab1
 #X-squared = 692, df = 1, p-value <0.0000000000000002
 # 
-
 
 
 tab1 <- prop.table (tab1, margin = 1)
@@ -1185,46 +1169,3 @@ x= 92.69685
 100- 92.69685
 y= 7.30315
 
-
-################################
-#Criação dos bancos para APÊNDICE Jacques
-
-Nordeste <- Banco2008Vereadores[Banco2008Vereadores$sigla_regiao_agreg ==
-                                      "NORDESTE", 
-                                c("sigla_uf", "descricao_ue", 
-                                  "porte_municipio", "QTD_ELEITORES")]
-
-Norte <- Banco2008Vereadores[Banco2008Vereadores$sigla_regiao_agreg ==
-                                  "NORTE", 
-                                c("sigla_uf", "descricao_ue", 
-                                  "porte_municipio", "QTD_ELEITORES")]
-
-SUL <- Banco2008Vereadores[Banco2008Vereadores$sigla_regiao_agreg ==
-                               "SUL", 
-                             c("sigla_uf", "descricao_ue", 
-                               "porte_municipio", "QTD_ELEITORES")]
-
-Sudeste <- Banco2008Vereadores[Banco2008Vereadores$sigla_regiao_agreg ==
-                             "SUDESTE", 
-                           c("sigla_uf", "descricao_ue", 
-                             "porte_municipio", "QTD_ELEITORES")]
-
-CentroOeste <- Banco2008Vereadores[Banco2008Vereadores$sigla_regiao_agreg ==
-                                 "CENTRO OESTE", 
-                               c("sigla_uf", "descricao_ue", 
-                                 "porte_municipio", "QTD_ELEITORES")]
-
-
-save(CentroOeste, file = "CentroOeste.RData")
-save(Nordeste, file = "Nordeste.RData")
-save(Norte, file = "Norte.RData")
-save(SUL, file = "SUL.RData")
-save(Sudeste, file = "Sudeste.RData")
-
-table(CentroOeste$porte_municipio)
-
-write.csv(CentroOeste, "CentroOeste.txt")
-write.csv(Nordeste, file = "Nordeste.txt")
-write.csv(Norte, file = "Norte.txt")
-write.csv(SUL, file = "SUL.txt")
-write.csv(Sudeste, file = "Sudeste.txt")
