@@ -1642,3 +1642,1420 @@ summary(Homem2016$total_votos_turno_1)
 ##Com os mesmos dados que rodamos para a tabela de cima, fizemos manualmente a tabela 14 - 
 #1º QUARTIL E QUARTIL SUPERIOR DE RECEITAS E 1º QUARTIL E QUARTIL SUPERIOR DE VOTOS DOS CANDIDATOS 
 #E CANDIDATAS A VEREADOR NAS ELEIÇÕES DE 2008,2012 E 2016.
+
+##TABELA 15 - COMPARAÇÃO DE MÉDIAS DE RECEITAS (R$) ENTRE ELEITOS(AS) E NÃO ELEITOS
+
+table(Banco2008Vereadores$desc_sit_tot_turno_agreg)
+#ELEITOS NÃO ELEITOS 
+#46153      198954 
+
+#Eleitos 2008####
+BancoEle <- Banco2008Vereadores %>%
+  filter(desc_sit_tot_turno_agreg == "ELEITOS") 
+save(BancoEle, file = "BancoEle.RData")
+
+#Nâo eleitos 2008####
+BancoNaoEle <- Banco2008Vereadores %>%
+  filter(desc_sit_tot_turno_agreg == "NÃO ELEITOS") 
+save(BancoNaoEle, file = "BancoNaoEle.RData")
+
+
+#TesteT #### 
+#Eleito e não eleito 2008 ####
+
+
+t.test(BancoEle$receitas_total, BancoNaoEle$receitas_total)
+
+# Welch Two Sample t-test
+# 
+# data:  BancoEle$receitas_total and BancoNaoEle$receitas_total
+# t = 92.804, df = 50829, p-value < 0.00000000000000022
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#   1970.473 2055.501
+# sample estimates:
+#   mean of x mean of y 
+# 3166.692  1153.705 
+
+summary(BancoEle$receitas_total)
+
+# > summary(BancoEle$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#    0     830    1901    3167    3890  279990 
+
+summary(BancoNaoEle$receitas_total)
+# > summary(BancoNaoEle$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   0      88     450    1154    1376  106361 
+
+#Eleitos 2012####
+BancoEle2012 <- Banco2012Vereadores %>%
+  filter(desc_sit_tot_turno_agreg == "ELEITOS") 
+save(BancoEle2012, file = "BancoEle2012.RData")
+
+#Nâo eleitos 2012####
+BancoNaoEle2012 <- Banco2012Vereadores %>%
+  filter(desc_sit_tot_turno_agreg == "NÃO ELEITOS") 
+save(BancoNaoEle2012, file = "BancoNaoEle2012.RData")
+
+#TesteT #### 
+#Eleito e não eleito 2012 ####
+
+t.test(BancoEle2012$receitas_total, BancoNaoEle2012$receitas_total)
+
+# Welch Two Sample t-test
+# 
+# data:  BancoEle2012$receitas_total and BancoNaoEle2012$receitas_total
+# t = 114.18, df = 54539, p-value < 0.00000000000000022
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#   3521.008 3644.005
+# sample estimates:
+#   mean of x mean of y 
+# 5364.275  1781.768 
+
+summary(BancoEle2012$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0    1435      3399    5364    6706  152733  
+
+summary(BancoNaoEle2012$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0     100     560    1782    2172     224738 
+
+#Eleitos 2016####
+BancoEle2016 <- Banco2016Vereadores %>%
+  filter(desc_sit_tot_turno_agreg == "ELEITOS") 
+save(BancoEle2016, file = "BancoEle2016.RData")
+
+#Nâo eleitos 2016####
+BancoNaoEle2016 <- Banco2016Vereadores %>%
+  filter(desc_sit_tot_turno_agreg == "NÃO ELEITOS") 
+save(BancoNaoEle2016, file = "BancoNaoEle2016.RData")
+
+#TesteT #### 
+#Eleito e não eleito 2016 ####
+
+t.test(BancoEle2016$receitas_total, BancoNaoEle2016$receitas_total)
+# Welch Two Sample t-test
+# 
+# data:  BancoEle2016$receitas_total and BancoNaoEle2016$receitas_total
+# t = 127.58, df = 56651, p-value < 0.00000000000000022
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#   2749.169 2834.961
+# sample estimates:
+#   mean of x mean of y 
+# 4602.971  1810.906  
+
+summary(BancoEle2016$receitas_total)
+#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#      0    1689    3460    4603    5983  139711   
+
+summary(BancoNaoEle2016$receitas_total)
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#    0     305     886    1811    2380  196777 
+
+#TABELA 16 - SITUAÇÃO DAS CANDIDATURAS POR SEXO
+
+#2008####
+tab1 <- table(Banco2008Vereadores$descricao_sexo, 
+              Banco2008Vereadores$desc_sit_tot_turno_agreg)
+tab1
+
+#           ELEITOS NÃO ELEITOS
+# FEMININO     5903       46556
+# MASCULINO   40250      152398
+
+chisq.test(tab1)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab1
+# X-squared = 2506.5, df = 1, p-value < 0.00000000000000022
+
+options(digits = 3)
+tab1 <- prop.table(tab1, margin = 1)
+tab1 * 100
+
+#          ELEITOS NÃO ELEITOS
+#FEMININO     11.3        88.7
+#MASCULINO    20.9        79.1
+
+#2012####
+tab2 <- table(Banco2012Vereadores$descricao_sexo, 
+              Banco2012Vereadores$desc_sit_tot_turno_agreg)
+tab2
+#          ELEITOS NÃO ELEITOS
+#FEMININO     6858       90159
+#MASCULINO   42933      158760
+
+chisq.test(tab2)
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab2
+# X-squared = 9532, df = 1, p-value <0.0000000000000002
+
+options(digits = 2)
+tab2 <- prop.table(tab2, margin = 1)
+tab2 * 100
+
+#          ELEITOS NÃO ELEITOS
+# FEMININO      7.1        92.9
+# MASCULINO    21.3        78.7
+
+#2016####
+
+tab3 <- table(Banco2016Vereadores$descricao_sexo, 
+              Banco2016Vereadores$desc_sit_tot_turno_agreg)
+tab3
+#           ELEITOS NÃO ELEITOS
+# FEMININO     6956       95209
+# MASCULINO   43191      164490
+
+chisq.test(tab3)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  tab3
+# X-squared = 9877, df = 1, p-value <0.0000000000000002
+
+options(digits = 2)
+tab3 <- prop.table(tab3, margin = 1)
+
+tab3 * 100
+#ELEITOS NÃO ELEITOS
+#FEMININO      6.8        93.2
+#MASCULINO    20.8        79.2
+
+# QUARTIL SUPERIOR RECEITAS
+#CANDIDATOS E CANDIDATAS ELEITOS (AS) NAS ELEIÇÕES DE 2008, 2012 E 2016
+
+#Para analisar o sexo (feminino e masculino) dentro
+#do banco de eleitos, teremos que criar 2 sub bancos 
+#sendo 1 para cada sexo
+
+#MUlheres 2008####
+table(BancoEle$descricao_sexo)
+#FEMININO MASCULINO 
+# 5903     40250 
+freq(BancoEle$descricao_sexo)
+
+BancoEle$descricao_sexo 
+# Frequência Percentual
+# FEMININO        5903      12.79
+# MASCULINO      40250      87.21
+# Total          46153     100.00
+
+BancoEleF <- BancoEle %>%
+  filter(descricao_sexo == "FEMININO") 
+
+save(BancoEleF, file = "BancoEleF.RData")
+ 
+summary(BancoEleF$receitas_total)
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   0     854    1978    3300    4084  186540 
+
+
+#Homens 2008####
+table(BancoEle$descricao_sexo)
+#FEMININO MASCULINO 
+# 5903     40250 
+
+BancoEleM <- BancoEle %>%
+  filter(descricao_sexo == "MASCULINO") 
+
+save(BancoEleM, file = "BancoEleM.RData")
+
+summary(BancoEleM$receitas_total)
+#  Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#    0     827    1896    3147    3855  279990
+
+#MUlheres 2012####
+
+
+BancoEleF2012 <- BancoEle2012 %>%
+  filter(descricao_sexo == "FEMININO") 
+
+save(BancoEleF2012, file = "BancoEleF2012.RData")
+
+summary(BancoEleF2012$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   0    1500    3641    5654    7222  151800
+
+#Homens 2012####
+table(BancoEle2012$descricao_sexo)
+# FEMININO MASCULINO 
+#6858     42933
+
+freq(BancoEle2012$descricao_sexo)
+
+# BancoEle2012$descricao_sexo 
+#           Frequência Percentual
+# FEMININO        6858      13.77
+# MASCULINO      42933      86.23
+# Total          49791     100.00
+
+BancoEleM2012 <- BancoEle2012 %>%
+  filter(descricao_sexo == "MASCULINO") 
+
+save(BancoEleM2012, file = "BancoEleM2012.RData")
+
+summary(BancoEleM2012$receitas_total)
+
+# > summary(BancoEleM2012$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0    1424    3358    5318    6630      152733 
+
+
+#MUlheres 2016####
+
+table(BancoEle2016$descricao_sexo)
+# FEMININO MASCULINO 
+# 6956     43191 
+
+freq(BancoEle2016$descricao_sexo)
+
+# BancoEle2016$descricao_sexo 
+# Frequência Percentual
+# FEMININO        6956      13.87
+# MASCULINO      43191      86.13
+# Total          50147     100.00
+
+BancoEleF2016 <- BancoEle2016 %>%
+  filter(descricao_sexo == "FEMININO") 
+
+save(BancoEleF2016, file = "BancoEleF2016.RData")
+
+summary(BancoEleF2016$receitas_total)
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   0    1800    3770    4919    6426   95695 
+
+#Homens 2016####
+
+BancoEleM2016 <- BancoEle2016 %>%
+  filter(descricao_sexo == "MASCULINO") 
+
+save(BancoEleM2016, file = "BancoEleM2016.RData")
+
+summary(BancoEleM2016$receitas_total)
+#Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#0    1670    3412    4552    5900  139711 
+
+#Teste t ####
+#Para todos os anos (2008,12 e 2016) para analisar 
+#se existe diferença de médias entre os homens e mulheres
+#eleitos
+
+#2008####
+t.test(BancoEleF$receitas_total, BancoEleM$receitas_total)
+# Welch Two Sample t-test
+# 
+# data:  BancoEleF$receitas_total and BancoEleM$receitas_total
+# t = 2, df = 7435, p-value = 0.02
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#   20 285
+# sample estimates:
+#   mean of x mean of y 
+# 3300      3147 
+
+#2012####
+t.test(BancoEleF2012$receitas_total, BancoEleM2012$receitas_total)
+
+# Welch Two Sample t-test
+# 
+# data:  BancoEleF2012$receitas_total and BancoEleM2012$receitas_total
+# t = 4, df = 9208, p-value = 0.0002
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#   162 510
+# sample estimates:
+#   mean of x mean of y 
+# 5654      5318 
+
+#2016####
+t.test(BancoEleF2016$receitas_total, BancoEleM2016$receitas_total)
+# Welch Two Sample t-test
+# 
+# data:  BancoEleF2016$receitas_total and BancoEleM2016$receitas_total
+# t = 6, df = 9130, p-value = 0.000000007
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#   242 491
+# sample estimates:
+#   mean of x mean of y 
+# 4919      4552 
+
+#Todos os testes menores 
+#q 0.05
+
+
+#Calculos de porcentagem para os valores
+#Cal 1
+279990 + 186540 
+#[1] 466530
+466530 -100
+279990 -x
+
+#466530x= 27999000
+
+27999000/466530
+x= 60
+
+#Cal2
+151800 + 152733
+#[1] 304533
+
+#304533x = 15180000
+15180000/304533
+#[1] 49.8
+
+#Cal 3
+95695 + 139711
+
+#[1] 235406
+#235406x = 9569500
+
+9569500/235406
+x= 40.7
+
+100-40.7
+y= 59.3
+
+#Tabelas 17,18 e 19 são uma peneira no quartil dos mais ricos.
+
+summary(Banco2008Vereadores$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#   0     130     620    1533    1837  279990 
+
+#Então o valor máximo do ultimo quartil é R$2.799.990,00
+#Portanto criamos um banco que considere todos os valores
+#que estão acima do 3º quartil, até o valor máximo. 
+
+library(tidyverse)
+#2008####
+MaisRicos2008 <- Banco2008Vereadores %>%
+  filter(receitas_total > 1837) 
+
+# Então o banco que original tinha 245.107 candidatos, 
+# filtrando pelos mais ricos temos 61.271 candidatos. 
+
+save(MaisRicos2008, file = "MaisRicos2008.RData")
+
+MaisRicos2008[order("receitas_total", decreasing = TRUE),]
+
+#o mesmo procedimento para os demais anos.
+
+#2012####
+summary(Banco2012Vereadores$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#    0     150     836    2379    2945  224738 
+
+MaisRicos2012 <- Banco2012Vereadores %>%
+  filter(receitas_total > 2379) 
+save(MaisRicos2012, file = "MaisRicos2012.RData")
+
+#2016####
+summary(Banco2016Vereadores$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0     380    1130    2263    3022  196777 
+
+MaisRicos2016 <- Banco2016Vereadores %>%
+  filter(receitas_total > 3022) 
+save(MaisRicos2016, file = "MaisRicos2016.RData")
+
+#TABELA 17####
+# GRAU DE INSTRUÇÃO ELEITOS (AS) QUARTIL SUPERIOR DE RECEITAS
+
+Tab1 <- table(MaisRicos2008$descricao_sexo, 
+              MaisRicos2008$descricao_grau_instrucao_agreg)
+Tab1
+
+#           FUNDAMENTAL MÉDIO SUPERIOR
+#FEMININO         2109  3993     4712
+#MASCULINO       19554 19233    11670
+
+2109+ 3993+ 4712
+
+19554+ 19233 +11670
+
+2109 + 19554
+
+3993 + 19233
+
+4712+ 11670
+
+10814 + 50457
+
+
+options(digits = 3)
+chisq.test(Tab1)
+
+# Pearson's Chi-squared test
+# 
+# data:  Tab1
+# X-squared = 2329, df = 2, p-value <2e-16
+
+Tab1 <- prop.table(Tab1, margin = 1)
+Tab1 * 100
+
+#           FUNDAMENTAL MÉDIO SUPERIOR
+# FEMININO         19.5  36.9     43.6
+# MASCULINO        38.8  38.1     23.1
+
+19.5  + 38.8
+36.9 + 38.1
+43.6 + 23.1
+#
+Tab2 <- table(MaisRicos2012$descricao_sexo, 
+              MaisRicos2012$descricao_grau_instrucao_agreg)
+Tab2
+
+#           FUNDAMENTAL MÉDIO SUPERIOR
+# FEMININO         3780  7334     7952
+# MASCULINO       25691 27778    16059
+
+3780  + 7334  + 7952
+25691 + 27778 + 16059
+
+3780 + 25691
+7334 +27778
+7952 + 16059
+
+29471	+ 35112 +	24011
+
+options(digits = 3)
+chisq.test(Tab2)
+
+# Pearson's Chi-squared test
+# 
+# data:  Tab1
+# X-squared = 3240, df = 2, p-value <2e-16
+
+Tab2 <- prop.table(Tab2, margin = 1)
+Tab2 * 100
+
+#           FUNDAMENTAL MÉDIO SUPERIOR
+#FEMININO         19.8  38.5     41.7
+#MASCULINO          37   40     23.1
+
+19.8 + 37
+38.5 +40
+41.7 + 23.1
+#
+Tab3 <- table(MaisRicos2016$descricao_sexo, 
+              MaisRicos2016$descricao_grau_instrucao_agreg)
+Tab3
+
+#           FUNDAMENTAL MÉDIO SUPERIOR
+# FEMININO         3255  6639     7266
+# MASCULINO       19983 25331    14985
+
+3255+ 6639+ 7266
+19983 + 25331+ 14985
+3255 + 19983
+6639 +25331
+7266 + 14985
+
+options(digits = 3)
+chisq.test(Tab3)
+
+# Pearson's Chi-squared test
+# 
+# data:  Tab1
+# X-squared = 2353, df = 2, p-value <2e-16
+
+Tab3 <- prop.table(Tab3, margin = 1)
+Tab3 * 100
+
+#           FUNDAMENTAL MÉDIO SUPERIOR
+#FEMININO         19.0  38.7     42.3
+#MASCULINO        33.1  42       24.9
+
+19+33.1
+38.7 +42
+42.3+ 24.9
+
+#TABELA 18 ####
+#– DESCRIÇÃO DA CARREIRA POLÍTICA ELEITOS (AS) COM RECORTE NA PARCELA COM MAIS RECEITAS
+
+Tab1.2 <- table(MaisRicos2008$descricao_sexo,
+                MaisRicos2008$descricao_ocupacao_agreg1)
+
+Tab1.2
+
+
+#                   NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                      9968                  846
+#MASCULINO                    44401                 6056
+
+chisq.test(Tab1.2)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  Tab1.2
+# X-squared = 155, df = 1, p-value <2e-16
+
+
+Tab1.2 <- prop.table(Tab1.2, margin = 1)
+Tab1.2*100
+
+#                NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+#FEMININO                       92.2                  7.8
+#MASCULINO                      88                    12
+
+#
+Tab2.2 <- table(MaisRicos2012$descricao_sexo,
+                MaisRicos2012$descricao_ocupacao_agreg1)
+
+Tab2.2
+
+
+#                   NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                    17938                 1128
+#MASCULINO                    61557                 7971
+
+chisq.test(Tab2.2)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  Tab2.2
+# X-squared = 499, df = 1, p-value <2e-16
+
+Tab2.2 <- prop.table(Tab2.2, margin = 1)
+Tab2.2*100
+
+#                NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+#FEMININO                       94.1                  5.9
+#MASCULINO                     88.5                 11.5
+
+#
+Tab3.2 <- table(MaisRicos2016$descricao_sexo,
+                MaisRicos2016$descricao_ocupacao_agreg1)
+
+Tab3.2
+
+
+#                   NNÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+# FEMININO                     15828                 1332
+# MASCULINO                    51597                 8702
+
+chisq.test(Tab3.2)
+
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  Tab3.2
+# X-squared = 526, df = 1, p-value <2e-16
+
+Tab3.2 <- prop.table(Tab3.2, margin = 1)
+Tab3.2*100
+
+#                NÃO POLÍTICO DE CARREIRA POLÍTICO DE CARREIRA
+#FEMININO                       92.2                  7.8
+#MASCULINO                       85.6                 14.4
+
+#Calculos 
+9968 +	846
+44401	+6056
+
+9968 + 44401
+846+6056
+
+92.2 +88
+7.8 +12
+
+17938	+ 1128
+61557	+7971
+17938	+ 61557
+1128 +7971
+
+94.1+ 88.5
+
+5.9 +11.5
+
+15828+	1332
+51597	+8702
+
+15828+51597
+1332 + 8702
+
+92.2 +85.6
+7.8 + 14.4
+
+#TABELA 19####
+#– DESCRIÇÃO DE DESAFIANTES X INCUMBENTES ELEITOS (AS) COM RECORTE NA PARCELA COM MAIS RECEITAS
+
+Tab3.1 <- table(MaisRicos2008$descricao_sexo, 
+                MaisRicos2008$incumb.xdesaf.)
+Tab3.1
+ 
+#          DESAFIANTE INCUMBENTE
+# FEMININO        8931       1883
+# MASCULINO      36940      13517
+
+chisq.test(Tab3.1)
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  Tab3.1
+# X-squared = 416, df = 1, p-value <2e-16
+
+options(digits = 3)
+Tab3.1 <- prop.table(Tab3.1, margin = 1)
+Tab3.1 *100
+
+#           DESAFIANTE INCUMBENTE
+# FEMININO        82.6       17.4
+# MASCULINO       73.2       26.8
+
+#
+Tab3.2 <- table(MaisRicos2012$descricao_sexo, 
+                MaisRicos2012$incumb.xdesaf.)
+Tab3.2
+
+#              DESAFIANTE INCUMBENTE
+# FEMININO       16818       2248
+# MASCULINO      53425      16103
+
+chisq.test(Tab3.2)
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# Tab3.2
+#X-squared = 1177, df = 1, p-value <2e-16
+
+
+options(digits = 3)
+Tab3.2 <- prop.table(Tab3.1, margin = 1)
+Tab3.2 *100
+
+#           DESAFIANTE INCUMBENTE
+# FEMININO        82.6       17.4
+# MASCULINO       73.2       26.8
+
+#
+Tab3.3 <- table(MaisRicos2016$descricao_sexo, 
+                MaisRicos2016$incumb.xdesaf.)
+Tab3.3
+
+#              DESAFIANTE INCUMBENTE
+# FEMININO       14636       2524
+#MASCULINO      43696      16603
+
+chisq.test(Tab3.3)
+# Pearson's Chi-squared test with Yates' continuity correction
+# 
+# data:  Tab3.3
+# X-squared = 1181, df = 1, p-value <2e-16
+
+options(digits = 3)
+Tab3.3 <- prop.table(Tab3.1, margin = 1)
+Tab3.3 *100
+
+#           DESAFIANTE INCUMBENTE
+# FEMININO        82.6       17.4
+# MASCULINO       73.2       26.8
+
+8931+	1883
+36940	+13517
+
+8931+36940
+1883 + 1883
+82.6 + 73.2
+17.4 +26.8
+
+16818	+ 2248
+53425	+16103
+
+16818	+53425
+2248+16103
+
+82.6 + 73.2
+17.4 + 26.8
+
+14636	+ 2524
+43696	+ 16603
+
+14636	+43696
+2524+ 16603
+  
+82.6 + 73.2
+17.4 + 26.8
+
+#REGRESSÃO####
+#Teste para o ano de 2008
+#Variáveis 
+table(Banco2008Vereadores$desc_sit_tot_turno_agreg)
+#ELEITOS NÃO ELEITOS 
+#46153      198954 
+
+#Primeiro vamos transformar essa variável em númerica recodificando
+
+library(memisc)
+Banco2008Vereadores$SucEle <- recode(Banco2008Vereadores$desc_sit_tot_turno_agreg, 
+                                   0 <- "NÃO ELEITOS",   1 <- "ELEITOS")
+
+table(Banco2008Vereadores$SucEle)
+
+table(Banco2008Vereadores$descricao_sexo) # sexo
+# FEMININO MASCULINO 
+# 52459    192648 
+summary(Banco2008Vereadores$cod_grau_instrucao) # grau de instrução 
+# 1     2     3     4     5     6     7     8 
+# 194  8070 61776 39440 14679 77227 10673 33048 
+table(Banco2008Vereadores$descricao_estado_civil_agreg) # estado civil
+# CASADOS NÃO CASADOS 
+# 154431       90676 
+table (Banco2008Vereadores$descricao_ocupacao_agreg) # ocupação
+# ESPECIALIZADO FUNDAMENTAL       ESPECIALIZADO MÉDIO    ESPECIALIZADO SUPERIOR         NÃO ESPECIALIZADO 
+#                   126728                     58014                     43560                     16805
+table(Banco2008Vereadores$descricao_ocupacao_agreg1) # carreira política
+# NÃO POLÍTICO DE CARREIRA     POLÍTICO DE CARREIRA 
+#                  230842                    14265 
+table(Banco2008Vereadores$incumb.xdesaf.) # Incumbente
+# DESAFIANTE INCUMBENTE 
+# 211971      33136 
+summary(Banco2008Vereadores$receitas_total) # Receita
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0     130     620    1533    1837  279990 
+
+Teste2008 <- glm(SucEle ~ descricao_sexo + cod_grau_instrucao + 
+                   descricao_estado_civil_agreg + descricao_ocupacao_agreg + 
+                   descricao_ocupacao_agreg1 + incumb.xdesaf.+ 
+                   receitas_total, data = Banco2008Vereadores, 
+             family = binomial(link = logit))
+
+library(sjPlot)
+
+tab_model(Teste2008, show.ci = F, auto.label = T,
+          show.se= T, collapse.se = F, wrap.labels= 60, p.style = "numeric", digits = 3)
+
+summary(Teste2008) #Função pra ver a razão de chance já exponenciada
+exp(coef(Teste2008))# Essas duas funções são pra ver os coeficientes 
+exp(Teste2008$coefficients)# que devem ser exponenciados com vários digitos
+
+
+#
+Banco2012Vereadores$SucEle <- recode(Banco2012Vereadores$desc_sit_tot_turno_agreg, 
+                                     0 <- "NÃO ELEITOS",   1 <- "ELEITOS")
+
+
+Teste2012 <- glm(SucEle ~ descricao_sexo + cod_grau_instrucao + 
+                   descricao_estado_civil_agreg + descricao_ocupacao_agreg + 
+                   descricao_ocupacao_agreg1 + incumb.xdesaf.+ 
+                   receitas_total, data = Banco2012Vereadores, 
+                 family = binomial(link = logit))
+
+library(sjPlot)
+
+tab_model(Teste2012, show.ci = F, auto.label = T,
+          show.se= T, collapse.se = F, wrap.labels= 60, 
+          p.style = "numeric", digits = 3, df_method="wald")
+
+exp(coef(Teste2012))
+
+#
+Banco2016Vereadores$SucEle <- recode(Banco2016Vereadores$desc_sit_tot_turno_agreg, 
+                                     0 <- "NÃO ELEITOS",   1 <- "ELEITOS")
+
+
+Teste2016 <- glm(SucEle ~ descricao_sexo + cod_grau_instrucao + 
+                   descricao_estado_civil_agreg + descricao_ocupacao_agreg + 
+                   descricao_ocupacao_agreg1 + incumb.xdesaf.+ 
+                   receitas_total, data = Banco2016Vereadores, 
+                 family = binomial(link = logit))
+
+library(sjPlot)
+
+tab_model(Teste2016, show.ci = F, auto.label = T,
+          show.se= T, collapse.se = F, wrap.labels= 60, 
+          p.style = "numeric", digits = 3)
+
+#Juntando os modelos em uma coisa só
+#UNINDO####
+tab_model(Teste2008, Teste2012, Teste2016, show.ci = F, 
+          auto.label = F, show.se= F, collapse.se = F, 
+          wrap.labels= 60, p.style = "stars", digits = 3)
+
+#Temos que arrumar um pouco os os modelos, uma das formas é reorganizar 
+#as variáveis, por exemplo, vamos testar pra casado, ocupação vamos testar 
+#para superior, e para ocupação vamos testar para político de carreira
+
+#REGRESSÃO ORGANIZADA####
+#2008####
+table(Banco2008Vereadores$descricao_estado_civil_agreg) # estado civil
+# CASADOS NÃO CASADOS 
+# 154431       90676 
+Banco2008Vereadores$EstCivil <- recode(
+  Banco2008Vereadores$descricao_estado_civil_agreg, 0 <- "NÃO CASADOS",
+  1 <- "CASADOS" ) 
+
+table (Banco2008Vereadores$descricao_ocupacao_agreg) # ocupação
+# ESPECIALIZADO FUNDAMENTAL       ESPECIALIZADO MÉDIO    ESPECIALIZADO SUPERIOR         NÃO ESPECIALIZADO 
+#                   126728                     58014                     43560                     16805
+
+Banco2008Vereadores$Ocupação <- recode(
+  Banco2008Vereadores$descricao_ocupacao_agreg, 0 <- "ESPECIALIZADO FUNDAMENTAL", 
+  1 <- "ESPECIALIZADO MÉDIO", 2 <- "NÃO ESPECIALIZADO", 3 <- "ESPECIALIZADO SUPERIOR")
+
+table(Banco2008Vereadores$descricao_ocupacao_agreg1) # carreira política
+# NÃO POLÍTICO DE CARREIRA     POLÍTICO DE CARREIRA 
+#                  230842                    14265 
+
+Banco2008Vereadores$PolCar <- recode(
+  Banco2008Vereadores$descricao_ocupacao_agreg1, 0 <- "NÃO POLÍTICO DE CARREIRA",
+  1 <- "POLÍTICO DE CARREIRA")
+
+#Ok. Agr vamos substituir no modelo.
+Teste2008.1 <- glm(SucEle ~ descricao_sexo + cod_grau_instrucao + 
+                   EstCivil + Ocupação + 
+                   PolCar + incumb.xdesaf.+ 
+                   receitas_total, data = Banco2008Vereadores, 
+                 family = binomial(link = logit))
+
+tab_model(Teste2008.1, show.ci = F, auto.label = F,
+          show.se= F, collapse.se = F, wrap.labels= 60, 
+          p.style = "stars", digits = 3)
+
+summary(Teste2008.1)
+exp(coef(Teste2008.1))
+exp(Teste2008.1$coefficients)
+
+#Agora ficou melhor, juntando as ocupações como as.numeric 
+#abaixou a significância do político de carreira, então 
+#vamos deixar como caracter mesmo. 
+
+#
+#2012####
+
+Banco2012Vereadores$EstCivil <- recode(
+  Banco2012Vereadores$descricao_estado_civil_agreg, 0 <- "NÃO CASADOS",
+  1 <- "CASADOS" ) 
+
+
+Banco2012Vereadores$Ocupação <- recode(
+  Banco2012Vereadores$descricao_ocupacao_agreg, 0 <- "ESPECIALIZADO FUNDAMENTAL", 
+  1 <- "ESPECIALIZADO MÉDIO", 2 <- "NÃO ESPECIALIZADO", 3 <- "ESPECIALIZADO SUPERIOR")
+
+
+Banco2012Vereadores$PolCar <- recode(
+  Banco2012Vereadores$descricao_ocupacao_agreg1, 0 <- "NÃO POLÍTICO DE CARREIRA",
+  1 <- "POLÍTICO DE CARREIRA")
+
+#Ok. Agr vamos substituir no modelo.
+Teste2012.1 <- glm(SucEle ~ descricao_sexo + cod_grau_instrucao + 
+                     EstCivil + Ocupação + 
+                     PolCar + incumb.xdesaf.+ 
+                     receitas_total, data = Banco2012Vereadores, 
+                   family = binomial(link = logit))
+
+tab_model(Teste2012.1, show.ci = F, auto.label = F,
+          show.se= F, collapse.se = F, wrap.labels= 60, 
+          p.style = "stars", digits = 3)
+
+summary(Teste2012.1)
+exp(coef(Teste2012.1))
+
+#
+#2016####
+
+Banco2016Vereadores$EstCivil <- recode(
+  Banco2016Vereadores$descricao_estado_civil_agreg, 0 <- "NÃO CASADOS",
+  1 <- "CASADOS" ) 
+
+Banco2016Vereadores$Ocupação <- recode(
+  Banco2016Vereadores$descricao_ocupacao_agreg, 0 <- "ESPECIALIZADO FUNDAMENTAL", 
+  1 <- "ESPECIALIZADO MÉDIO", 2 <- "NÃO ESPECIALIZADO", 3 <- "ESPECIALIZADO SUPERIOR")
+
+Banco2016Vereadores$PolCar <- recode(
+  Banco2016Vereadores$descricao_ocupacao_agreg1, 0 <- "NÃO POLÍTICO DE CARREIRA",
+  1 <- "POLÍTICO DE CARREIRA")
+
+#Ok. Agr vamos substituir no modelo.
+Teste2016.1 <- glm(SucEle ~ descricao_sexo + cod_grau_instrucao + 
+                     EstCivil + Ocupação + 
+                     PolCar + incumb.xdesaf.+ 
+                     receitas_total, data = Banco2016Vereadores, 
+                   family = binomial(link = logit))
+
+tab_model(Teste2016.1, show.ci = F, auto.label = F,
+          show.se= F, collapse.se = F, wrap.labels= 60, 
+          p.style = "stars", digits = 3)
+
+summary(Teste2016.1)
+exp(coef(Teste2016.1))
+
+#UNINDO####
+tab_model(Teste2008.1, Teste2012.1, Teste2016.1, show.ci = F, 
+          auto.label = F, show.se= F, collapse.se = F, 
+          wrap.labels= 60, p.style = "stars", digits = 3)
+
+#Regressão Linar Multipla#### 
+# Variável dependente: total de votos####
+# Independete: Sexo, idade, receita, grau de instrução, 
+# estado civil, ocupação, incumbente, político de carreira
+
+#1º Organizar as variáveis:
+library(descr) #Pacote para descritiva
+library(memisc) #Pacote pra recodificar
+
+
+#2008####
+summary(Banco2008Vereadores$total_votos_turno_1)
+
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.0    36.0    91.0   158.3   202.0  3483.0 
+
+#Renomeando
+Banco2008Vereadores$Tvotos <- Banco2008Vereadores$total_votos_turno_1
+
+table(Banco2008Vereadores$descricao_sexo)
+# FEMININO MASCULINO 
+# 52459    192648 
+
+#Renomeando
+Banco2008Vereadores$Sexo <- Banco2008Vereadores$descricao_sexo
+
+summary(Banco2008Vereadores$idade_data_eleicao)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 17.00   35.00   43.00   43.08   50.00   95.00 
+
+#Renomeando
+Banco2008Vereadores$Idade <- Banco2008Vereadores$idade_data_eleicao
+
+table(Banco2008Vereadores$descricao_grau_instrucao_agreg)
+# FUNDAMENTAL       MÉDIO    SUPERIOR 
+# 109480       91906       43721 
+
+#Renomeando
+Banco2008Vereadores$Escol <- Banco2008Vereadores$descricao_grau_instrucao_agreg
+
+summary(Banco2008Vereadores$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0     130     620    1533    1837  279990 
+
+#renomeando
+Banco2008Vereadores$Receita <- Banco2008Vereadores$receitas_total
+
+table(Banco2008Vereadores$descricao_estado_civil)
+# CASADO(A)             DIVORCIADO(A) SEPARADO(A) JUDICIALMENTE 
+# 154431                     10796                      6248 
+# SOLTEIRO(A)                  VIÚVO(A) 
+# 69260                      4372 
+
+#Recodificando
+Banco2008Vereadores$EstCivil <- recode(Banco2008Vereadores$descricao_estado_civil,
+    0 <- "VIÚVO(A)", 1 <- "SOLTEIRO(A)", 2 <- "SEPARADO(A) JUDICIALMENTE",
+    3 <- "DIVORCIADO(A)", 4 <- "CASADO(A)" )
+
+table(Banco2008Vereadores$EstCivil)
+# 0      1      2      3      4 
+# 4372  69260   6248  10796 154431 
+
+Banco2008Vereadores$EstCivil <- as.numeric(Banco2008Vereadores$EstCivil)
+
+table(Banco2008Vereadores$descricao_ocupacao_agreg)
+# ESPECIALIZADO FUNDAMENTAL       ESPECIALIZADO MÉDIO    ESPECIALIZADO SUPERIOR 
+# 126728                     58014                     43560 
+# NÃO ESPECIALIZADO 
+# 16805 
+
+
+#recodificando
+Banco2008Vereadores$Ocupacao <- recode(Banco2008Vereadores$descricao_ocupacao_agreg,
+0 <- "NÃO ESPECIALIZADO", 1 <- "ESPECIALIZADO FUNDAMENTAL", 
+2 <- "ESPECIALIZADO MÉDIO", 3 <- "ESPECIALIZADO SUPERIOR")
+
+Banco2008Vereadores$Ocupacao <- as.numeric(Banco2008Vereadores$Ocupacao)
+
+table(Banco2008Vereadores$Ocupacao)
+# 0      1      2      3 
+# 16805 126728  58014  43560
+
+table(Banco2008Vereadores$incumb.xdesaf.)
+
+# DESAFIANTE INCUMBENTE 
+# 211971      33136
+
+table(Banco2008Vereadores$descricao_ocupacao_agreg1)
+# NÃO POLÍTICO DE CARREIRA     POLÍTICO DE CARREIRA 
+# 230842                    14265 
+
+#Renomeando
+Banco2008Vereadores$PolCar <- Banco2008Vereadores$descricao_ocupacao_agreg1
+
+
+#Criando o modelo 2008
+Teste2008 <- lm(Tvotos ~ Receita + Sexo + Idade + 
+                  Escol + EstCivil + 
+              Ocupacao + incumb.xdesaf. +
+              PolCar, data = Banco2008Vereadores)
+
+summary(Teste2008)
+options(scipen = 999)
+library(sjPlot)
+
+tab_model(Teste2008, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+library(lm.beta)
+Teste2008 <- lm.beta(Teste2008)
+summary(Teste2008B)
+
+
+tab_model(Teste2008B, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+#Apresentação gráfica da regressão:
+#install.packages("coefplot"")
+library(coefplot)
+library(ggplot2)
+
+#Coef2008####
+obj1 <- coefplot(Teste2008, title = "Regressão T.Votos 2008",
+                 xlab = "Valor",
+                 ylab = "Coefficient",
+                 color = "black",
+                 outerCI = T,
+                 innerCI = 5,
+                 intercept = T)
+
+obj1 + theme_classic() + geom_point(size=3, pch=21, fill="red",
+                                    alpha=105) +
+  theme(text = element_text(family = "serif", size = 12),
+        rect = element_blank(),
+        panel.grid = element_blank(),
+        title = element_text(color = "black"),
+        axis.line = element_line(color = "black"))
+
+#2012####
+summary(Banco2012Vereadores$total_votos_turno_1)
+
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.0    36.0    91.0   158.3   202.0  3483.0 
+
+#Renomeando
+Banco2012Vereadores$Tvotos <- Banco2012Vereadores$total_votos_turno_1
+
+table(Banco2012Vereadores$descricao_sexo)
+# FEMININO MASCULINO 
+# 52459    192648 
+
+#Renomeando
+Banco2012Vereadores$Sexo <- Banco2012Vereadores$descricao_sexo
+
+summary(Banco2012Vereadores$idade_data_eleicao)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 17.00   35.00   43.00   43.08   50.00   95.00 
+
+#Renomeando
+Banco2012Vereadores$Idade <- Banco2012Vereadores$idade_data_eleicao
+
+table(Banco2012Vereadores$descricao_grau_instrucao_agreg)
+# FUNDAMENTAL       MÉDIO    SUPERIOR 
+# 109480       91906       43721 
+
+#Renomeando
+Banco2012Vereadores$Escol <- Banco2012Vereadores$descricao_grau_instrucao_agreg
+
+summary(Banco2012Vereadores$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0     130     620    1533    1837  279990 
+
+#renomeando
+Banco2012Vereadores$Receita <- Banco2012Vereadores$receitas_total
+
+table(Banco2012Vereadores$descricao_estado_civil)
+# CASADO(A)             DIVORCIADO(A) SEPARADO(A) JUDICIALMENTE 
+# 154431                     10796                      6248 
+# SOLTEIRO(A)                  VIÚVO(A) 
+# 69260                      4372 
+
+#Recodificando
+Banco2012Vereadores$EstCivil <- recode(Banco2012Vereadores$descricao_estado_civil,
+                                       0 <- "VIÚVO(A)", 1 <- "SOLTEIRO(A)", 2 <- "SEPARADO(A) JUDICIALMENTE",
+                                       3 <- "DIVORCIADO(A)", 4 <- "CASADO(A)" )
+
+table(Banco2012Vereadores$EstCivil)
+# 0      1      2      3      4 
+# 4372  69260   6248  10796 154431 
+
+Banco2012Vereadores$EstCivil <- as.numeric(Banco2012Vereadores$EstCivil)
+
+table(Banco2012Vereadores$descricao_ocupacao_agreg)
+# ESPECIALIZADO FUNDAMENTAL       ESPECIALIZADO MÉDIO    ESPECIALIZADO SUPERIOR 
+# 126728                     58014                     43560 
+# NÃO ESPECIALIZADO 
+# 16805 
+
+
+#recodificando
+Banco2012Vereadores$Ocupacao <- recode(Banco2012Vereadores$descricao_ocupacao_agreg,
+                                       0 <- "NÃO ESPECIALIZADO", 1 <- "ESPECIALIZADO FUNDAMENTAL", 
+                                       2 <- "ESPECIALIZADO MÉDIO", 3 <- "ESPECIALIZADO SUPERIOR")
+
+Banco2012Vereadores$Ocupacao <- as.numeric(Banco2012Vereadores$Ocupacao)
+
+table(Banco2012Vereadores$Ocupacao)
+# 0      1      2      3 
+# 16805 126728  58014  43560
+
+table(Banco2012Vereadores$incumb.xdesaf.)
+
+# DESAFIANTE INCUMBENTE 
+# 211971      33136
+
+table(Banco2012Vereadores$descricao_ocupacao_agreg1)
+# NÃO POLÍTICO DE CARREIRA     POLÍTICO DE CARREIRA 
+# 230842                    14265 
+
+#Renomeando
+Banco2012Vereadores$PolCar <- Banco2012Vereadores$descricao_ocupacao_agreg1
+
+
+#Criando o modelo 2012
+Teste2012 <- lm(Tvotos ~ Receita + Sexo + Idade + 
+                  Escol + EstCivil + 
+                  Ocupacao + incumb.xdesaf. +
+                  PolCar, data = Banco2012Vereadores)
+
+summary(Teste2012)
+options(scipen = 999)
+library(sjPlot)
+
+tab_model(Teste2012, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+library(lm.beta)
+Teste2012 <- lm.beta(Teste2012)
+
+
+
+tab_model(Teste2012B, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+#Coef2012####
+obj2 <- coefplot(Teste2012, title = "Regressão T.Votos 2012",
+                 xlab = "Valor",
+                 ylab = "Coefficient",
+                 color = "black",
+                 outerCI = T,
+                 innerCI = 5,
+                 intercept = T)
+
+obj2 + theme_classic() + geom_point(size=3, pch=21, fill="red",
+                                    alpha=105) +
+  theme(text = element_text(family = "serif", size = 12),
+        rect = element_blank(),
+        panel.grid = element_blank(),
+        title = element_text(color = "black"),
+        axis.line = element_line(color = "black"))
+
+#2016####
+summary(Banco2016Vereadores$total_votos_turno_1)
+
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0.0    36.0    91.0   158.3   202.0  3483.0 
+
+#Renomeando
+Banco2016Vereadores$Tvotos <- Banco2016Vereadores$total_votos_turno_1
+
+table(Banco2016Vereadores$descricao_sexo)
+# FEMININO MASCULINO 
+# 52459    192648 
+
+#Renomeando
+Banco2016Vereadores$Sexo <- Banco2016Vereadores$descricao_sexo
+
+summary(Banco2016Vereadores$idade_data_eleicao)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 17.00   35.00   43.00   43.08   50.00   95.00 
+
+#Renomeando
+Banco2016Vereadores$Idade <- Banco2016Vereadores$idade_data_eleicao
+
+table(Banco2016Vereadores$descricao_grau_instrucao_agreg)
+# FUNDAMENTAL       MÉDIO    SUPERIOR 
+# 109480       91906       43721 
+
+#Renomeando
+Banco2016Vereadores$Escol <- Banco2016Vereadores$descricao_grau_instrucao_agreg
+
+summary(Banco2016Vereadores$receitas_total)
+# Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+# 0     130     620    1533    1837  279990 
+
+#renomeando
+Banco2016Vereadores$Receita <- Banco2016Vereadores$receitas_total
+
+table(Banco2016Vereadores$descricao_estado_civil)
+# CASADO(A)             DIVORCIADO(A) SEPARADO(A) JUDICIALMENTE 
+# 154431                     10796                      6248 
+# SOLTEIRO(A)                  VIÚVO(A) 
+# 69260                      4372 
+
+#Recodificando
+Banco2016Vereadores$EstCivil <- recode(Banco2016Vereadores$descricao_estado_civil,
+                                       0 <- "VIÚVO(A)", 1 <- "SOLTEIRO(A)", 2 <- "SEPARADO(A) JUDICIALMENTE",
+                                       3 <- "DIVORCIADO(A)", 4 <- "CASADO(A)" )
+
+table(Banco2016Vereadores$EstCivil)
+# 0      1      2      3      4 
+# 4372  69260   6248  10796 154431 
+
+Banco2016Vereadores$EstCivil <- as.numeric(Banco2016Vereadores$EstCivil)
+
+table(Banco2016Vereadores$descricao_ocupacao_agreg)
+# ESPECIALIZADO FUNDAMENTAL       ESPECIALIZADO MÉDIO    ESPECIALIZADO SUPERIOR 
+# 126728                     58014                     43560 
+# NÃO ESPECIALIZADO 
+# 16805 
+
+
+#recodificando
+Banco2016Vereadores$Ocupacao <- recode(Banco2016Vereadores$descricao_ocupacao_agreg,
+                                       0 <- "NÃO ESPECIALIZADO", 1 <- "ESPECIALIZADO FUNDAMENTAL", 
+                                       2 <- "ESPECIALIZADO MÉDIO", 3 <- "ESPECIALIZADO SUPERIOR")
+
+Banco2016Vereadores$Ocupacao <- as.numeric(Banco2016Vereadores$Ocupacao)
+
+table(Banco2016Vereadores$Ocupacao)
+# 0      1      2      3 
+# 16805 126728  58014  43560
+
+table(Banco2016Vereadores$incumb.xdesaf.)
+
+# DESAFIANTE INCUMBENTE 
+# 211971      33136
+
+table(Banco2016Vereadores$descricao_ocupacao_agreg1)
+# NÃO POLÍTICO DE CARREIRA     POLÍTICO DE CARREIRA 
+# 230842                    14265 
+
+#Renomeando
+Banco2016Vereadores$PolCar <- Banco2016Vereadores$descricao_ocupacao_agreg1
+
+
+#Criando o modelo 2016
+Teste2016 <- lm(Tvotos ~ Receita + Sexo + Idade + 
+                  Escol + EstCivil + 
+                  Ocupacao + incumb.xdesaf. +
+                  PolCar, data = Banco2016Vereadores)
+
+summary(Teste2016)
+options(scipen = 999)
+library(sjPlot)
+
+tab_model(Teste2016, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+library(lm.beta)
+Teste2016 <- lm.beta(Teste2016)
+summary(Teste2016B)
+
+
+#Coef2016####
+obj3 <- coefplot(Teste2016, title = "Regressão T.Votos 2016",
+                 xlab = "Valor",
+                 ylab = "Coefficient",
+                 color = "black",
+                 outerCI = T,
+                 innerCI = 5,
+                 intercept = T)
+
+obj3 + theme_classic() + geom_point(size=3, pch=21, fill="red",
+                                    alpha=105) +
+  theme(text = element_text(family = "serif", size = 12),
+        rect = element_blank(),
+        panel.grid = element_blank(),
+        title = element_text(color = "black"),
+        axis.line = element_line(color = "black"))
+
+#Receita como variável dependente####
+#Agr o teste é para tentar explicar o que faz com 
+#que o candidato possua mais receita
+
+#2008####
+TesteR2008 <- lm(Receita ~ Sexo + Idade + 
+                  Escol + EstCivil + 
+                  Ocupacao + incumb.xdesaf. +
+                  PolCar, data = Banco2008Vereadores)
+
+tab_model(TesteR2008, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+#Coef2008####
+obj4 <- coefplot(TesteR2008, title = "Regressão Receitas 2008",
+                 xlab = "Valor",
+                 ylab = "Coefficient",
+                 color = "black",
+                 outerCI = T,
+                 innerCI = 5,
+                 intercept = T)
+
+obj4 + theme_classic() + geom_point(size=3, pch=21, fill="red",
+                                    alpha=105) +
+  theme(text = element_text(family = "serif", size = 12),
+        rect = element_blank(),
+        panel.grid = element_blank(),
+        title = element_text(color = "black"),
+        axis.line = element_line(color = "black"))
+
+#2012####
+TesteR2012 <- lm(Receita ~ Sexo + Idade + 
+                   Escol + EstCivil + 
+                   Ocupacao + incumb.xdesaf. +
+                   PolCar, data = Banco2012Vereadores)
+
+tab_model(TesteR2012, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+#Coef2012####
+obj5 <- coefplot(TesteR2012, title = "Regressão Receitas 2012",
+                 xlab = "Valor",
+                 ylab = "Coefficient",
+                 color = "black",
+                 outerCI = T,
+                 innerCI = 5,
+                 intercept = T)
+
+obj5 + theme_classic() + geom_point(size=3, pch=21, fill="red",
+                                    alpha=105) +
+  theme(text = element_text(family = "serif", size = 12),
+        rect = element_blank(),
+        panel.grid = element_blank(),
+        title = element_text(color = "black"),
+        axis.line = element_line(color = "black"))
+
+#2016####
+TesteR2016 <- lm(Receita ~ Sexo + Idade + 
+                   Escol + EstCivil + 
+                   Ocupacao + incumb.xdesaf. +
+                   PolCar, data = Banco2016Vereadores)
+
+tab_model(TesteR2016, show.ci = F, auto.label = T, show.se =F,
+          collapse.se = F,  wrap.labels = 60, digits = 3,
+          show.std = T, p.style = "stars")
+
+#Coef2016####
+obj6 <- coefplot(TesteR2016, title = "Regressão Receitas 2016",
+                 xlab = "Valor",
+                 ylab = "Coefficient",
+                 color = "black",
+                 outerCI = T,
+                 innerCI = 5,
+                 intercept = T)
+
+obj6 + theme_classic() + geom_point(size=3, pch=21, fill="red",
+                                    alpha=105) +
+  theme(text = element_text(family = "serif", size = 12),
+        rect = element_blank(),
+        panel.grid = element_blank(),
+        title = element_text(color = "black"),
+        axis.line = element_line(color = "black"))
+
